@@ -2,18 +2,18 @@
 // https://javiercbk.github.io/json_to_dart/
 // for his nice tool!
 
-class WorkerResponse {
+class WorkersResponse {
   String? error;
-  List<WorkerResponseResult>? result;
+  List<WorkersResponseResult>? result;
 
-  WorkerResponse({this.error, this.result});
+  WorkersResponse({this.error, this.result});
 
-  WorkerResponse.fromJson(Map<String, dynamic> json) {
+  WorkersResponse.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     if (json['result'] != null) {
-      result = <WorkerResponseResult>[];
+      result = <WorkersResponseResult>[];
       json['result'].forEach((v) {
-        result!.add(new WorkerResponseResult.fromJson(v));
+        result!.add(new WorkersResponseResult.fromJson(v));
       });
     }
   }
@@ -28,19 +28,19 @@ class WorkerResponse {
   }
 }
 
-class WorkerResponseResult {
+class WorkersResponseResult{
   String? name;
   bool? isOnline;
-  int? count;
-  int? reportedHashrate;
-  int? currentEffectiveHashrate;
-  double? averageEffectiveHashrate;
-  int? validShares;
-  int? staleShares;
-  int? invalidShares;
-  int? lastSeen;
+  num? count;
+  num? reportedHashrate;
+  num? currentEffectiveHashrate;
+  num? averageEffectiveHashrate;
+  num? validShares;
+  num? staleShares;
+  num? invalidShares;
+  num? lastSeen;
 
-  WorkerResponseResult(
+  WorkersResponseResult(
       {this.name,
         this.isOnline,
         this.count,
@@ -52,7 +52,7 @@ class WorkerResponseResult {
         this.invalidShares,
         this.lastSeen});
 
-  WorkerResponseResult.fromJson(Map<String, dynamic> json) {
+  WorkersResponseResult.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     isOnline = json['isOnline'];
     count = json['count'];
@@ -66,17 +66,18 @@ class WorkerResponseResult {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['isOnline'] = this.isOnline;
-    data['count'] = this.count;
-    data['reportedHashrate'] = this.reportedHashrate;
-    data['currentEffectiveHashrate'] = this.currentEffectiveHashrate;
-    data['averageEffectiveHashrate'] = this.averageEffectiveHashrate;
-    data['validShares'] = this.validShares;
-    data['staleShares'] = this.staleShares;
-    data['invalidShares'] = this.invalidShares;
-    data['lastSeen'] = this.lastSeen;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['isOnline'] = isOnline;
+    data['count'] = count;
+    data['reportedHashrate'] = reportedHashrate;
+    data['currentEffectiveHashrate'] = currentEffectiveHashrate;
+    data['averageEffectiveHashrate'] = averageEffectiveHashrate;
+    data['validShares'] = validShares;
+    data['staleShares'] = staleShares;
+    data['invalidShares'] = invalidShares;
+    data['lastSeen'] = lastSeen;
     return data;
   }
+
 }

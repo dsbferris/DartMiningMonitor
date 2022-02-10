@@ -2,16 +2,18 @@
 // https://javiercbk.github.io/json_to_dart/
 // for his nice tool!
 
-class PayoutResponse {
+import 'package:equatable/equatable.dart';
+
+class PaymentsResponse {
   String? error;
-  PayoutResponseResult? result;
+  PaymentsResponseResult? result;
 
-  PayoutResponse({this.error, this.result});
+  PaymentsResponse({this.error, this.result});
 
-  PayoutResponse.fromJson(Map<String, dynamic> json) {
+  PaymentsResponse.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     result =
-    json['result'] != null ? PayoutResponseResult.fromJson(json['result']) : null;
+    json['result'] != null ? PaymentsResponseResult.fromJson(json['result']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -24,22 +26,22 @@ class PayoutResponse {
   }
 }
 
-class PayoutResponseResult {
+class PaymentsResponseResult {
   num? countervalue;
   num? totalItems;
   num? totalPages;
-  List<PayoutResponseResultData>? data;
+  List<Payout>? data;
 
-  PayoutResponseResult({this.countervalue, this.totalItems, this.totalPages, this.data});
+  PaymentsResponseResult({this.countervalue, this.totalItems, this.totalPages, this.data});
 
-  PayoutResponseResult.fromJson(Map<String, dynamic> json) {
+  PaymentsResponseResult.fromJson(Map<String, dynamic> json) {
     countervalue = json['countervalue'];
     totalItems = json['totalItems'];
     totalPages = json['totalPages'];
     if (json['data'] != null) {
-      data = <PayoutResponseResultData>[];
+      data = <Payout>[];
       json['data'].forEach((v) {
-        data!.add(PayoutResponseResultData.fromJson(v));
+        data!.add(Payout.fromJson(v));
       });
     }
   }
@@ -56,17 +58,17 @@ class PayoutResponseResult {
   }
 }
 
-class PayoutResponseResultData {
-  String? hash;
-  num? timestamp;
-  num? value;
-  num? fee;
-  num? feePercent;
-  num? duration;
-  bool? confirmed;
-  num? confirmedTimestamp;
+class Payout extends Equatable{
+  late final String? hash;
+  late final num? timestamp;
+  late final num? value;
+  late final num? fee;
+  late final num? feePercent;
+  late final num? duration;
+  late final bool? confirmed;
+  late final num? confirmedTimestamp;
 
-  PayoutResponseResultData(
+  Payout(
       {this.hash,
         this.timestamp,
         this.value,
@@ -76,7 +78,7 @@ class PayoutResponseResultData {
         this.confirmed,
         this.confirmedTimestamp});
 
-  PayoutResponseResultData.fromJson(Map<String, dynamic> json) {
+  Payout.fromJson(Map<String, dynamic> json) {
     hash = json['hash'];
     timestamp = json['timestamp'];
     value = json['value'];
@@ -99,4 +101,9 @@ class PayoutResponseResultData {
     data['confirmedTimestamp'] = confirmedTimestamp;
     return data;
   }
+
+  @override
+  List<Object?> get props =>
+      [hash, timestamp, value, fee, feePercent, duration, confirmed, confirmedTimestamp];
+
 }
