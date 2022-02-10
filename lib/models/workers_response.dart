@@ -13,16 +13,16 @@ class WorkersResponse {
     if (json['result'] != null) {
       result = <WorkersResponseResult>[];
       json['result'].forEach((v) {
-        result!.add(new WorkersResponseResult.fromJson(v));
+        result!.add(WorkersResponseResult.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['error'] = this.error;
-    if (this.result != null) {
-      data['result'] = this.result!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['error'] = error;
+    if (result != null) {
+      data['result'] = result!.map((v) => v.toJson()).toList();
     }
     return data;
   }
