@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class DailyRewardPerGigahashSecResponse {
   String? error;
   num? result;
@@ -14,5 +16,12 @@ class DailyRewardPerGigahashSecResponse {
     data['error'] = error;
     data['result'] = result;
     return data;
+  }
+
+  num getDaysLeft(num payoutLimitWei, num currentBalanceWei, num hashrateInHashesPerSec){
+    num weiLeftForPayout = payoutLimitWei - currentBalanceWei;
+    num dailyGeneratedWei = (result! * hashrateInHashesPerSec) / pow(10, 9);
+    num daysLeft = weiLeftForPayout / dailyGeneratedWei;
+    return daysLeft;
   }
 }
