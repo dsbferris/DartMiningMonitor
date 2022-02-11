@@ -1,4 +1,7 @@
+import 'package:flexpool_monitoring_telegram_bot/models/workers_response.dart';
+
 import 'flexpool_api.dart' as api;
+import 'flexpool_hive.dart' as db;
 
 int calculate() {
   return 6 * 7;
@@ -6,12 +9,20 @@ int calculate() {
 
 Future<void> startMonitoring() async {
   print("Starting monitoring...");
-  var p = await api.getPayments();
-  var w = await api.getWorkers();
-  var d = await api.getDailyRewardPerGigahashSec();
-  var payouts = p.result?.data ?? [];
-  print(payouts);
-  print(p);
-  print(w);
-  print(d);
+  var response = await api.getWorkers();
+  if(response.result != null){
+    for(var w in response.result!){
+      db.storeWorker(w);
+    }
+    for(var w in response.result!){
+      if(w.name != null) {
+        var worker = await db.getWorker(w.name!);
+        print(worker);
+      }
+    }
+    db.printBox();
+  }
+
+
+
 }

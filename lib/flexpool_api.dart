@@ -12,17 +12,18 @@ import 'models/workers_response.dart';
 const String baseUrl = "api.flexpool.io";
 const String minerAddress = "wallet";
 
-Future<PaymentsResponse> getPayments() async {
+Future<PaymentsResponse> getPayments({int page=0}) async {
   var url = Uri.https(baseUrl, "/v2/miner/payments", {
     "coin": "eth",
     "address": minerAddress,
     "countervalue": "eur",
-    "page": "0"
+    "page": page.toString()
   });
   var response = await http.get(url);
   if(response.statusCode == 200){
     return PaymentsResponse.fromJson(jsonDecode(response.body));
     // TODO Request more Pages if totalPages is > 1...
+    // Dont forget to test this feature then...
   }
   else{
     throw Exception("getPayments() Response Error. Code != 200.");
