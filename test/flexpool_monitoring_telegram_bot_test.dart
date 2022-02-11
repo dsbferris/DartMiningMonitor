@@ -1,13 +1,188 @@
+import 'package:flexpool_monitoring_telegram_bot/models/workers_response.dart';
 import 'package:test/test.dart';
 import 'package:flexpool_monitoring_telegram_bot/flexpool_monitoring_telegram_bot.dart';
 import 'package:flexpool_monitoring_telegram_bot/flexpool_api.dart' as api;
 
 void main(){
-  test('calculate', () {
-    expect(calculate(), 42);
-  });
-
   apiTests();
+  workerPlusOperatorTests();
+}
+
+
+void workerPlusOperatorTests(){
+  group("Worker + Operator", () {
+    test("Adding two null workers", (){
+      Worker w1 = Worker(
+        averageEffectiveHashrate: null,
+        currentEffectiveHashrate: null,
+        reportedHashrate: null,
+        invalidShares: null,
+        staleShares: null,
+        validShares: null,
+        name: "test",
+        lastSeen: null,
+        isOnline: null,
+        count: null,
+      );
+      Worker w2 = w1 + w1;
+      expect(w2.name, equals("test"));
+      for(var s in [w2.validShares, w2.staleShares, w2.invalidShares,
+        w2.averageEffectiveHashrate, w2.currentEffectiveHashrate, w2.reportedHashrate,
+        w2.isOnline, w2.lastSeen, w2.count]){
+          expect(s, isNull);
+      }
+    });
+    test("Adding null worker with valid worker", () {
+      Worker w1 = Worker(
+        averageEffectiveHashrate: null,
+        currentEffectiveHashrate: null,
+        reportedHashrate: null,
+        invalidShares: null,
+        staleShares: null,
+        validShares: null,
+        name: "test",
+        lastSeen: null,
+        isOnline: null,
+        count: null,
+      );
+      Worker w2 = Worker.fromJson(w1.toJson()); //using to trick to clone
+      w2
+        ..validShares = 1
+        ..staleShares = 2
+        ..invalidShares = 3
+        ..name = "test2";
+      Worker w3 = w1 + w2;
+      expect(w3.name, equals("test2"));
+      expect(w3.validShares, 1);
+      expect(w3.staleShares, 2);
+      expect(w3.invalidShares, 3);
+
+      for(var s in [w3.averageEffectiveHashrate, w3.currentEffectiveHashrate, w3.reportedHashrate,
+        w3.isOnline, w3.lastSeen, w3.count]){
+        expect(s, isNull);
+      }
+    });
+    test("Adding valid worker to null worker", (){
+      Worker w1 = Worker(
+        averageEffectiveHashrate: null,
+        currentEffectiveHashrate: null,
+        reportedHashrate: null,
+        invalidShares: null,
+        staleShares: null,
+        validShares: null,
+        name: "test",
+        lastSeen: null,
+        isOnline: null,
+        count: null,
+      );
+      Worker w2 = Worker.fromJson(w1.toJson()); //using to trick to clone
+      w2
+        ..validShares = 1
+        ..staleShares = 2
+        ..invalidShares = 3
+        ..name = "test2";
+      Worker w3 = w2 + w1;
+      expect(w3.name, equals("test"));
+      expect(w3.validShares, 1);
+      expect(w3.staleShares, 2);
+      expect(w3.invalidShares, 3);
+
+      for(var s in [w3.averageEffectiveHashrate, w3.currentEffectiveHashrate, w3.reportedHashrate,
+        w3.isOnline, w3.lastSeen, w3.count]){
+        expect(s, isNull);
+      }
+    });
+    test("Adding valid worker to zero worker", () {
+      Worker w1 = Worker(
+        averageEffectiveHashrate: null,
+        currentEffectiveHashrate: null,
+        reportedHashrate: null,
+        validShares: 1,
+        staleShares: 2,
+        invalidShares: 3,
+        name: "test",
+        lastSeen: null,
+        isOnline: null,
+        count: null,
+      );
+      Worker w2 = Worker.fromJson(w1.toJson()); //using to trick to clone
+      w2
+        ..validShares = 0
+        ..staleShares = 0
+        ..invalidShares = 0
+        ..name = "test2";
+      Worker w3 = w1 + w2;
+      expect(w3.name, equals("test2"));
+      expect(w3.validShares, 1);
+      expect(w3.staleShares, 2);
+      expect(w3.invalidShares, 3);
+
+      for(var s in [w3.averageEffectiveHashrate, w3.currentEffectiveHashrate, w3.reportedHashrate,
+        w3.isOnline, w3.lastSeen, w3.count]){
+        expect(s, isNull);
+      }
+    });
+    test("Adding zero worker to valid worker", () {
+      Worker w1 = Worker(
+        averageEffectiveHashrate: null,
+        currentEffectiveHashrate: null,
+        reportedHashrate: null,
+        validShares: 1,
+        staleShares: 2,
+        invalidShares: 3,
+        name: "test",
+        lastSeen: null,
+        isOnline: null,
+        count: null,
+      );
+      Worker w2 = Worker.fromJson(w1.toJson()); //using to trick to clone
+      w2
+        ..validShares = 0
+        ..staleShares = 0
+        ..invalidShares = 0
+        ..name = "test2";
+      Worker w3 = w1 + w2;
+      expect(w3.name, equals("test2"));
+      expect(w3.validShares, 1);
+      expect(w3.staleShares, 2);
+      expect(w3.invalidShares, 3);
+
+      for(var s in [w3.averageEffectiveHashrate, w3.currentEffectiveHashrate, w3.reportedHashrate,
+        w3.isOnline, w3.lastSeen, w3.count]){
+        expect(s, isNull);
+      }
+    });
+    test("Adding valid worker to valid worker", () {
+      Worker w1 = Worker(
+        averageEffectiveHashrate: null,
+        currentEffectiveHashrate: null,
+        reportedHashrate: null,
+        validShares: 0,
+        staleShares: 0,
+        invalidShares: 0,
+        name: "test",
+        lastSeen: null,
+        isOnline: null,
+        count: null,
+      );
+      Worker w2 = Worker.fromJson(w1.toJson()); //using to trick to clone
+      w2
+        ..validShares = 1
+        ..staleShares = 2
+        ..invalidShares = 3
+        ..name = "test2";
+      Worker w3 = w1 + w2;
+      expect(w3.name, equals("test2"));
+      expect(w3.validShares, 1);
+      expect(w3.staleShares, 2);
+      expect(w3.invalidShares, 3);
+
+      for(var s in [w3.averageEffectiveHashrate, w3.currentEffectiveHashrate, w3.reportedHashrate,
+        w3.isOnline, w3.lastSeen, w3.count]){
+        expect(s, isNull);
+      }
+    });
+  });
 }
 
 void apiTests(){

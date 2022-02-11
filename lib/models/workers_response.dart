@@ -2,18 +2,22 @@
 // https://javiercbk.github.io/json_to_dart/
 // for his nice tool!
 
+import 'package:hive/hive.dart';
+
+part 'workers_response.g.dart';
+
 class WorkersResponse {
   String? error;
-  List<WorkersResponseResult>? result;
+  List<Worker>? result;
 
   WorkersResponse({this.error, this.result});
 
   WorkersResponse.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     if (json['result'] != null) {
-      result = <WorkersResponseResult>[];
+      result = <Worker>[];
       json['result'].forEach((v) {
-        result!.add(WorkersResponseResult.fromJson(v));
+        result!.add(Worker.fromJson(v));
       });
     }
   }
@@ -28,19 +32,30 @@ class WorkersResponse {
   }
 }
 
-class WorkersResponseResult{
+@HiveType(typeId: 0)
+class Worker extends HiveObject{
+  @HiveField(0)
   String? name;
-  bool? isOnline;
-  num? count;
-  num? reportedHashrate;
-  num? currentEffectiveHashrate;
-  num? averageEffectiveHashrate;
+  @HiveField(1)
   num? validShares;
+  @HiveField(2)
   num? staleShares;
+  @HiveField(3)
   num? invalidShares;
+  @HiveField(4)
+  bool? isOnline;
+  @HiveField(5)
+  num? count;
+  @HiveField(6)
+  num? reportedHashrate;
+  @HiveField(7)
+  num? currentEffectiveHashrate;
+  @HiveField(8)
+  num? averageEffectiveHashrate;
+  @HiveField(9)
   num? lastSeen;
 
-  WorkersResponseResult(
+  Worker(
       {this.name,
         this.isOnline,
         this.count,
@@ -52,7 +67,7 @@ class WorkersResponseResult{
         this.invalidShares,
         this.lastSeen});
 
-  WorkersResponseResult.fromJson(Map<String, dynamic> json) {
+  Worker.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     isOnline = json['isOnline'];
     count = json['count'];
@@ -78,6 +93,43 @@ class WorkersResponseResult{
     data['invalidShares'] = invalidShares;
     data['lastSeen'] = lastSeen;
     return data;
+  }
+
+  @override
+  String toString() {
+    return "$name: $validShares, $staleShares, $invalidShares";
+  }
+
+  Worker operator +(Worker other){
+    num? valid = validShares != null ?
+    (other.validShares != null ?
+    validShares! + other.validShares! : validShares)
+        : other.validShares;
+
+    num? stale = staleShares != null ?
+    (other.staleShares != null ?
+    staleShares! + other.staleShares! : staleShares)
+        : other.staleShares;
+
+    num? invalid = invalidShares != null ?
+    (other.invalidShares != null ?
+    invalidShares! + other.invalidShares! : invalidShares)
+        : other.invalidShares;
+
+
+    return Worker(
+      averageEffectiveHashrate: other.averageEffectiveHashrate,
+      currentEffectiveHashrate: other.currentEffectiveHashrate,
+      reportedHashrate: other.reportedHashrate,
+      count: other.count,
+      isOnline: other.isOnline,
+      lastSeen: other.lastSeen,
+      name: other.name,
+
+      validShares: valid,
+      staleShares: stale,
+      invalidShares: invalid
+    );
   }
 
 }
