@@ -1,4 +1,4 @@
-FROM google/dart:latest
+FROM dart:latest
 
 WORKDIR /app
 
@@ -7,5 +7,10 @@ RUN pub get
 ADD . /app
 RUN pub get --offline
 
+# This just executes the dart program
 CMD []
-ENTRYPOINT ["/usr/bin/dart", "main.dart"]
+ENTRYPOINT ["dart", "main.dart"]
+
+# This precompiles the app. It takes longer to build the container, but start the app faster
+#RUN dart compile exe main.dart -o myapp
+#CMD ["./myapp"]

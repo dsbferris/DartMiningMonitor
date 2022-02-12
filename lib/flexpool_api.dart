@@ -1,12 +1,11 @@
 import 'dart:convert';
-
-import 'package:flexpool_monitoring_telegram_bot/models/balance_response.dart';
-import 'package:flexpool_monitoring_telegram_bot/models/payments_response.dart';
 import 'package:http/http.dart' as http;
 
+import 'models/balance_response.dart';
+import 'models/miner_details_response.dart';
+import 'models/payments_response.dart';
 import 'models/daily_reward_per_gigahash_sec_response.dart';
 import 'models/miner_stats_response.dart';
-import 'models/payments_response.dart';
 import 'models/workers_response.dart';
 
 const String baseUrl = "api.flexpool.io";
@@ -83,5 +82,19 @@ Future<BalanceResponse> getBalance() async{
   }
   else{
     throw Exception("getBalance() Response Error. Code != 200.");
+  }
+}
+
+Future<MinerDetailsResponse> getDetails() async {
+  var url = Uri.https(baseUrl, "/v2/miner/details", {
+    "coin": "eth",
+    "address" : minerAddress,
+  });
+  var response = await http.get(url);
+  if(response.statusCode == 200){
+    return MinerDetailsResponse.fromJson(jsonDecode(response.body));
+  }
+  else{
+    throw Exception("getDetails() Response Error. Code != 200.");
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flexpool_monitoring_telegram_bot/models/workers_response.dart';
 import 'package:test/test.dart';
-import 'package:flexpool_monitoring_telegram_bot/flexpool_monitoring_telegram_bot.dart';
 import 'package:flexpool_monitoring_telegram_bot/flexpool_api.dart' as api;
 
 void main(){
@@ -292,6 +291,10 @@ void apiTests(){
           isPositive
         ]));
       }
+    });
+
+    test("getDetails should return valid values", () async {
+      throw UnimplementedError();
     });
   });
 }

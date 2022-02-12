@@ -1,5 +1,3 @@
-import 'package:flexpool_monitoring_telegram_bot/models/workers_response.dart';
-
 import 'flexpool_api.dart' as api;
 import 'flexpool_hive.dart' as db;
 
