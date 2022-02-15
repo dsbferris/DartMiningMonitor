@@ -1,9 +1,13 @@
-import 'package:flexpool_monitoring_telegram_bot/flexpool_api.dart' as api;
+import 'dart:io';
+
+import 'package:flexpool_monitoring_telegram_bot/flexpool_api.dart';
 import 'package:flexpool_monitoring_telegram_bot/models/workers_response.dart';
 import 'package:test/test.dart';
 
 void main(){
-  apiTests();
+  String? minerAddress = Platform.environment["MINER_ADDRESS"];
+  assert(minerAddress != null);
+  apiTests(minerAddress: minerAddress!);
   workerPlusOperatorTests();
 }
 
@@ -184,7 +188,8 @@ void workerPlusOperatorTests(){
   });
 }
 
-void apiTests(){
+void apiTests({required String minerAddress}){
+  var api = FlexpoolApi(minerAddress: minerAddress);
   group("API", () {
     test("getPayments should return valid values", () async {
       var value = await api.getPayments();

@@ -155,6 +155,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
+  dart_telegram_bot:
+    dependency: "direct main"
+    description:
+      name: dart_telegram_bot
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.1"
   equatable:
     dependency: "direct main"
     description:
