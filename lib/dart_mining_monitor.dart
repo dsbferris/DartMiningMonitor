@@ -1,4 +1,4 @@
-import 'flexpool_api.dart' as api;
+import 'flexpool_api.dart';
 import 'flexpool_hive.dart' as db;
 
 int calculate() {
@@ -7,6 +7,7 @@ int calculate() {
 
 Future<void> startMonitoring() async {
   print("Starting monitoring...");
+  var api = FlexpoolApi(minerAddress: "1234");
   var response = await api.getWorkers();
   if(response.result != null){
     for(var w in response.result!){
