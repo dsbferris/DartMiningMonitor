@@ -5,6 +5,10 @@
 # Conventional directory for build output.
 build/
 /tmp/
+/my_hive_dir/
+
+# Not to show my secret environment variables
 /.run/
 /.idea/
-/my_hive_dir/
+
+
