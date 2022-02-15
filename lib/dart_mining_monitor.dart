@@ -5,9 +5,9 @@ int calculate() {
   return 6 * 7;
 }
 
-Future<void> startMonitoring() async {
+Future<void> startMonitoring(String minerAddress) async {
   print("Starting monitoring...");
-  var api = FlexpoolApi(minerAddress: "1234");
+  var api = FlexpoolApi(minerAddress: minerAddress);
   var response = await api.getWorkers();
   if(response.result != null){
     for(var w in response.result!){
@@ -21,7 +21,4 @@ Future<void> startMonitoring() async {
     }
     db.printBox();
   }
-
-
-
 }

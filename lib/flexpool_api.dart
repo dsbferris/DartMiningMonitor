@@ -30,6 +30,7 @@ class FlexpoolApi {
       // Dont forget to test this feature then...
     }
     else{
+      print(response.statusCode);
       throw Exception("getPayments() Response Error. Code != 200.");
     }
   }
@@ -45,6 +46,7 @@ class FlexpoolApi {
       return WorkersResponse.fromJson(jsonDecode(response.body));
     }
     else{
+      print(response.statusCode);
       throw Exception("getWorkers() Response Error. Code != 200.");
     }
   }
@@ -59,6 +61,7 @@ class FlexpoolApi {
       return DailyRewardPerGigahashSecResponse.fromJson(jsonDecode(response.body));
     }
     else{
+      print(response.statusCode);
       throw Exception("getDailyRewardPerGigahashSec() Response Error. Code != 200.");
     }
   }
@@ -74,6 +77,7 @@ class FlexpoolApi {
       return MinerStatsResponse.fromJson(jsonDecode(response.body));
     }
     else{
+      print(response.statusCode);
       throw Exception("getMinerStats() Response Error. Code != 200.");
     }
   }
@@ -90,6 +94,7 @@ class FlexpoolApi {
       return BalanceResponse.fromJson(jsonDecode(response.body));
     }
     else{
+      print(response.statusCode);
       throw Exception("getBalance() Response Error. Code != 200.");
     }
   }
@@ -105,6 +110,7 @@ class FlexpoolApi {
       return MinerDetailsResponse.fromJson(jsonDecode(response.body));
     }
     else{
+      print(response.statusCode);
       throw Exception("getDetails() Response Error. Code != 200.");
     }
   }

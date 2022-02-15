@@ -13,7 +13,7 @@ void storeWorker(Worker w) async{
   if(w.name == null) throw ArgumentError.value(w.name, "w.name");
   var box = await _getWorkerBox();
   if(box.containsKey(w.name)){
-    //TODO ADD WORKER
+    //TODO ADD WORKER SHARES
   }
   else{
     await box.put(w.name, w);
