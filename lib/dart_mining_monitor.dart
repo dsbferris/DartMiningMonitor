@@ -22,3 +22,8 @@ Future<void> startMonitoring(String minerAddress) async {
     db.printBox();
   }
 }
+
+
+void testTelegram() {
+  //TODO Do hands on check if this shit could work and how it works
+}
