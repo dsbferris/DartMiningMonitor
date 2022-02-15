@@ -1,6 +1,6 @@
+import 'package:flexpool_monitoring_telegram_bot/flexpool_api.dart' as api;
 import 'package:flexpool_monitoring_telegram_bot/models/workers_response.dart';
 import 'package:test/test.dart';
-import 'package:flexpool_monitoring_telegram_bot/flexpool_api.dart' as api;
 
 void main(){
   apiTests();
@@ -294,7 +294,15 @@ void apiTests(){
     });
 
     test("getDetails should return valid values", () async {
-      throw UnimplementedError();
+      var value = await api.getDetails();
+      var result = value.result;
+      expect(result, isNotNull);
+      if(result != null){
+        for(var s in [result.currentNetworkFeePrice, result.payoutLimit]){
+          expect(s, allOf(isNotNull, isNonNegative));
+        }
+        //No need to check other variables, as we don't need them.
+      }
     });
   });
 }
