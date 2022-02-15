@@ -1,3 +1,8 @@
+// Big thanks to
+// https://javiercbk.github.io/json_to_dart/
+// for his nice tool!
+
+
 class MinerDetailsResponse {
   String? error;
   MinerDetailsResponseResult? result;
