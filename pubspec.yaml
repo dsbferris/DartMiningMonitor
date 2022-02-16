@@ -1,4 +1,4 @@
-name: flexpool_monitoring_telegram_bot
+name: dart_mining_monitor
 description: A sample command-line application.
 version: 1.0.0
 # homepage: https://www.example.com
@@ -15,8 +15,8 @@ dev_dependencies:
   test: ^1.16.0
 dependencies: 
   build_runner: ^2.1.7
-  dart_telegram_bot: ^0.6.1
   equatable: ^2.0.3
   hive: ^2.0.5
   hive_generator: ^1.1.2
   http: ^0.13.4
+  teledart: ^0.3.2

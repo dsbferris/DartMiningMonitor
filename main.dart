@@ -1,19 +1,30 @@
 import 'dart:io';
 
-import 'package:flexpool_monitoring_telegram_bot/dart_mining_monitor.dart'
-    as flexpool_monitoring_telegram_bot;
-import 'package:flexpool_monitoring_telegram_bot/models/workers_response.dart';
+import 'package:dart_mining_monitor/dart_mining_monitor.dart'
+    as dmm;
+import 'package:dart_mining_monitor/models/workers_response.dart';
 import 'package:hive/hive.dart';
 
 void main(List<String> arguments) {
 
   var minerAddress = Platform.environment["MINER_ADDRESS"];
-  if(minerAddress == null){
-    throw Exception("No minerAddress given from env. variables.");
-  }
+  if(minerAddress == null) throw Exception("No minerAddress given");
+
   var token = Platform.environment["BOT_TOKEN"];
-  var ferrisChatId = Platform.environment["FERRIS_CHAT_ID"];
-  var groupChatId = Platform.environment["GROUP_CHAT_ID"];
+  if(token == null) throw Exception("No token given");
+
+  var ferrisChatIdString = Platform.environment["FERRIS_CHAT_ID"];
+  if(ferrisChatIdString == null) throw Exception("No privateChatId given");
+  var ferrisChatId = int.parse(ferrisChatIdString);
+
+  var groupChatIdString = Platform.environment["GROUP_CHAT_ID"];
+  if(groupChatIdString == null) throw Exception("No groupChatId given");
+  var groupChatId = int.parse(groupChatIdString);
+
+  dmm.testTelegram(token: token, privateChatId: ferrisChatId, groupChatId: groupChatId);
+
+
+
 
   if(arguments.contains("-h") || arguments.contains("--help")){
     print("Here should be your help... but well, it isn't yet.");
@@ -25,6 +36,7 @@ void main(List<String> arguments) {
   if(arguments.contains("--delete-hive")){
     throw UnimplementedError("Delete Hive not implemented yet.");
   }
-  print('Hello world: ${flexpool_monitoring_telegram_bot.calculate()}!');
-  flexpool_monitoring_telegram_bot.startMonitoring(minerAddress);
+
+  print('Hello world: ${dmm.calculate()}!');
+  dmm.startMonitoring(minerAddress);
 }

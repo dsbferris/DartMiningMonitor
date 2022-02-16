@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:flexpool_monitoring_telegram_bot/flexpool_api.dart';
-import 'package:flexpool_monitoring_telegram_bot/models/workers_response.dart';
+import 'package:dart_mining_monitor/flexpool_api.dart';
+import 'package:dart_mining_monitor/models/workers_response.dart';
 import 'package:test/test.dart';
 
 void main(){

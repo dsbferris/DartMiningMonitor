@@ -155,13 +155,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
-  dart_telegram_bot:
-    dependency: "direct main"
-    description:
-      name: dart_telegram_bot
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.6.1"
   equatable:
     dependency: "direct main"
     description:
@@ -428,6 +421,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  teledart:
+    dependency: "direct main"
+    description:
+      name: teledart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.2"
   term_glyph:
     dependency: transitive
     description:
