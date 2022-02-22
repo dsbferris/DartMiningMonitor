@@ -30,6 +30,7 @@ Future<void> startMonitoring(String minerAddress) async {
 
 
 void testTelegram({required String token, required int privateChatId, required int groupChatId }) async{
+  print("Starting teledart");
   //TODO Do hands on check if this shit could work and how it works
   final username = (await Telegram(token).getMe()).username;
 
@@ -75,4 +76,5 @@ void testTelegram({required String token, required int privateChatId, required i
   input_message_content: InputTextMessageContent(
   message_text: '*_dong_*', parse_mode: 'MarkdownV2')),
   ]));
+  print("Finished teledart");
 }

@@ -21,8 +21,8 @@ void main(List<String> arguments) {
   if(groupChatIdString == null) throw Exception("No groupChatId given");
   var groupChatId = int.parse(groupChatIdString);
 
+  //Init teledart bot here. I will work smooth!
   dmm.testTelegram(token: token, privateChatId: ferrisChatId, groupChatId: groupChatId);
-
 
 
 
@@ -32,11 +32,18 @@ void main(List<String> arguments) {
   
   Hive.init("my_hive_dir");
   Hive.registerAdapter(WorkerAdapter());
-  //TODO Think about whether to use arguments or environment variables
   if(arguments.contains("--delete-hive")){
     throw UnimplementedError("Delete Hive not implemented yet.");
   }
 
   print('Hello world: ${dmm.calculate()}!');
-  dmm.startMonitoring(minerAddress);
+  //dmm.startMonitoring(minerAddress);
+
+  //This does not disturb the telegram bot.
+  var stream = Stream.periodic(const Duration(seconds: 10), (computationCount) async => {
+    await dmm.startMonitoring(minerAddress)
+  });
+  stream.listen((event) {
+    print("Stream responded");
+  });
 }
