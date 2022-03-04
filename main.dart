@@ -21,9 +21,9 @@ void main(List<String> arguments) {
   if(groupChatIdString == null) throw Exception("No groupChatId given");
   var groupChatId = int.parse(groupChatIdString);
 
-  //Init teledart bot here. I will work smooth!
-  dmm.testTelegram(token: token, privateChatId: ferrisChatId, groupChatId: groupChatId);
-
+  //Init teledart bot here. It will work smooth!
+  //dmm.testTelegram(token: token, privateChatId: ferrisChatId, groupChatId: groupChatId);
+  dmm.testTelegram(token: token);
 
 
   if(arguments.contains("-h") || arguments.contains("--help")){
