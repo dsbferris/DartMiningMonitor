@@ -30,6 +30,6 @@ Future<void> startMonitoring(String minerAddress) async {
 }
 
 void testTelegram({required String token}){
-  var myBot = MyTeleDartBot(token: token)..init();
-  myBot.testTelegram();
+  var myBot = MyTeleDartBot(token: token)..init()..testTelegram();
+  //myBot.testTelegram();
 }
