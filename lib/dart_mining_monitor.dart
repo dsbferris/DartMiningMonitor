@@ -29,7 +29,15 @@ Future<void> startMonitoring(String minerAddress) async {
   }
 }
 
-void testTelegram({required String token}){
-  var myBot = MyTeleDartBot(token: token)..init()..testTelegram();
+void testTelegram({required String token}) async{
+  var teledart = await getTeleDart(token);
+  var myBot = MyTeleDartBot(teledart: teledart); //this also handles all stuff.
   //myBot.testTelegram();
+}
+
+Future<TeleDart> getTeleDart(token) async {
+  final me = await Telegram(token).getMe();
+  final username = me.username;
+  // TeleDart uses longpoll by default if no update fetcher is specified.
+  return TeleDart(token, Event(username!));
 }
