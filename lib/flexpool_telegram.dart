@@ -1,5 +1,6 @@
 import 'package:teledart/model.dart';
 import 'package:teledart/teledart.dart';
+import 'package:teledart/telegram.dart';
 class MyTeleDartBot{
 
   final TeleDart teledart;
@@ -65,5 +66,16 @@ class MyTeleDartBot{
     message.reply("Call an ambulance, but not for me!", reply_markup: markup);
   }
 
+  /// Return teledart instance with given [token]
+  ///
+  /// This method is needed to pass it to [MyTeleDartBot], because constructors
+  /// can't work with async-await and I don't want to have a nullable instance
+  /// of TeleDart in that class.
+  static Future<TeleDart> getTeleDart(String token) async {
+    final me = await Telegram(token).getMe();
+    final username = me.username;
+    // TeleDart uses longpoll by default if no update fetcher is specified.
+    return TeleDart(token, Event(username!));
+  }
 
 }
