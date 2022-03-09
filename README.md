@@ -1,4 +1,4 @@
-#Flexpool Mining Monitor Telegram Bot in Dart [FlexMiMonBotDart or just ***REMOVED***Bot]
+# Flexpool Mining Monitor Telegram Bot in Dart [FlexMiMonBotDart or just ***REMOVED***Bot]
 
 ##First things first!
 Check `@MYBOTNAME` on telegram. I only recommend using my bot for testing.
