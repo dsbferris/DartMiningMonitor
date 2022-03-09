@@ -1,12 +1,12 @@
 # Flexpool Mining Monitor Telegram Bot in Dart [FlexMiMonBotDart or just ***REMOVED***Bot]
 
-##First things first!
+## First things first!
 Check `@MYBOTNAME` on telegram. I only recommend using my bot for testing.
 Better create your own bot using `@BotFather`. Also keep in mind if you use my bot,
 I got your wallet and Telegram profile. Not that I'm not trustworthy, but better you know.
 Also please note that I'm not encrypting any of the saved data.
 
-###How to use
+### How to use
 Start by messaging bot with <code>/start 0xYOURWALLETHERE1234"</code>  
 Then select time for daily news.  
 Note: YOU CANNOT CHANGE THAT TIME LATER!
@@ -27,7 +27,7 @@ Additional commands:
 - <code>/stop</code> will stop this bot. It will one last time print out current shares per worker for the ongoing Payout.
 Then all data is about your Telegram profile and your workers and payouts is getting deleting from database, except for last two when someone else subscribed to that address as well.
 
-####Planned features upcoming versions
+#### Planned features upcoming versions
 - <code>/alarm price (e.g. 3000€)</code> sends un-mutable notification when price hits target
 - Small menu to manage these alarms, like showing and deleting them.
 - Should an alarm be deleted after it triggered?
@@ -40,17 +40,17 @@ I could also keep the retrieving time the same and only let you change the notif
 but this would make me do coding another routine and scheduling for it, instead of having all stuff done easily at once.
 
 
-###How to build
+### How to build
 // TODO docker build ...  
 // TODO docker run ... (with environment variable for telegram bot token)
 
 
-###API Calls that are being used
+### API Calls that are being used
 - /worker/stats
 - /worker/payments
 - ...
 - //TODO ADD MORE
 
-###Why request API every 24h?
+### Why request API every 24h?
 Because Flexpool saves your worker's shares for 24h,
 so retrieving this every 24h should give a kinda precise, but not 100% accurate, values.
