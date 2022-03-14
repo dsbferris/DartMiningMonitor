@@ -1,3 +1,7 @@
+import 'package:dart_mining_monitor/flexpool/api.dart';
+import 'package:dart_mining_monitor/flexpool/hive_models/wallet_time_nickname.dart';
+import 'package:dart_mining_monitor/flexpool_hive.dart';
+import 'package:hive/hive.dart';
 import 'package:teledart/model.dart';
 import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
@@ -22,6 +26,7 @@ class MyTeleDartBot{
     registerAllCommands();
     registerInlineQueries();
 
+
     print("Initialized teledart");
   }
 
@@ -42,7 +47,7 @@ class MyTeleDartBot{
     teledart.onCommand(RegExp('hello', caseSensitive: false))
         .listen((message) => message.reply('hi!'));
 
-    teledart.onCommand(RegExp("help", caseSensitive: false)).listen(helpCommand);
+    //teledart.onCommand(RegExp("help", caseSensitive: false)).listen(helpCommand);
 
 
 
@@ -77,39 +82,94 @@ class MyTeleDartBot{
 
 
   void startCommand(TeleDartMessage message) {
-    teledart.sendMessage(message.chat.id,
-        'Hello ${message.from?.first_name}!\n'
-        'Please send me your wallet address now (0x...)\n'
-        'Use the following format: /wallet 0x...');
+    if(message.chat.type == "private"){
+      teledart.sendMessage(message.chat.id,
+          'Hello ${message.chat.username}!\n'
+          'Please send me your address.\n'
+          'Use the following format:\n'
+          '/wallet 0xYOURWALLET123');
+    }
+    else if(message.chat.type == "group"){
+      teledart.sendMessage(message.chat.id,
+          'Hello ${message.chat.title}!\n'
+          'Please send me your address.\n'
+          'Use the following format:\n'
+          '/wallet 0xYOURWALLET123');
+    }
+
   }
 
-  void walletCommand(TeleDartMessage message){
+  Future<void> walletCommand(TeleDartMessage message) async {
     var text = message.text ?? "";
-    if(text.toLowerCase().contains("0x")){
-      String wallet = "";
-      for(final t in text.split(" ")){
-        if(t.toLowerCase().contains("0x")) wallet = t;
-      }
-      //API Locate wallet, should return eth
-      //if not, wallet is entered wrong or not known to flexpool
-
+    var wallet = extractWalletFromString(text);
+    if(wallet == null) {
+      message.reply("Use the following format:\n"
+          "/wallet 0xYOURWALLET123");
     }
     else{
-      message.reply("Use the following format: /wallet 0x...");
+      var locateWallet = await Api(minerAddress: wallet).getLocateWallet();
+      if(locateWallet == null || locateWallet != "eth"){
+        message.reply('The given wallet $wallet is not known at flexpool.\n'
+            'Sure you entered the right one?\n'
+            'Please retry using /wallet 0xYOURWALLET123'
+        );
+      }
+      else{
+        var datetime = DateTime.now();
+        //delay daily report time by three minutes, so that the api calls have one minute to finish
+        var time = "${datetime.hour} ${datetime.minute + 3}";
+
+        var success = await addWalletToChatBox(message.chat.id.toString(), wallet, time);
+        if(success){
+          message.reply("Successfully added your wallet $wallet.\n"
+              "You will be notified every day at ${datetime.hour}:${datetime.minute + 3}.\n"
+              "To change the time use the command\n"
+              "/changeTime 0x... 16:45");
+        }
+        else{
+          message.reply("Your wallet is already registered!\n"
+              "If you wan't to delete it use:\n"
+              "/delete 0x...");
+        }
+      }
     }
   }
 
-  void shortCommand(TeleDartMessage message){
-    message.reply('This works too!');
+  void changeTimeCommand(TeleDartMessage message){
+    //TODO Implement change time command
+    print("TODO IMPLEMENT");
   }
 
-  void helpCommand(TeleDartMessage message){
-    List<List<InlineKeyboardButton>> keyboard = [];
-    keyboard.add([InlineKeyboardButton(text: "test1", callback_data: "test1"), InlineKeyboardButton(text: "test2", callback_data: "test2")]);
-    //keyboard.add([InlineKeyboardButton(text: "test3"), InlineKeyboardButton(text: "test4")]);
-    //keyboard.add([InlineKeyboardButton(text: "LUL INLINE")]);
-    var markup = InlineKeyboardMarkup(inline_keyboard: keyboard);
-    message.reply("Call an ambulance, but not for me!", reply_markup: markup);
+  void changeNicknameCommand(TeleDartMessage message){
+    //TODO Implement change nickname command
+    print("TODO IMPLEMENT");
   }
+
+  void deleteCommand(TeleDartMessage message){
+    //TODO Implement delete command
+    print("TODO IMPLEMENT");
+  }
+
+
+
+  void loadCronJobsFromOldSessions() async{
+    //TODO Implement load old cron jobs
+    print("Implement that shit bro...");
+  }
+
+  String? extractWalletFromString(String text){
+    for(final t in text.split(" ")){
+      if(t.toLowerCase().contains("0x".toLowerCase())){
+        if(t.length != 42) {
+          return null;
+        } else {
+          return t;
+        }
+      }
+    }
+    return null;
+  }
+
+
 
 }

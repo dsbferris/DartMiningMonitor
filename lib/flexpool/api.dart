@@ -116,13 +116,18 @@ class Api {
   }
 
   static const String _locateWalletPath = "/v2/miner/locateAddress";
-  Future<String> getLocateWallet() async {
+  Future<String?> getLocateWallet() async {
     var url = Uri.https(_baseUrl, _locateWalletPath, {
       'address' : minerAddress
     });
     var response = await http.get(url);
     if(response.statusCode == 200){
-      return jsonDecode(response.body)
+      var json = jsonDecode(response.body);
+      return json["result"];
+    }
+    else{
+      print(response.statusCode);
+      throw Exception("getLocateWallet Response Error. Code != 200");
     }
   }
 }

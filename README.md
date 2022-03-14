@@ -54,3 +54,23 @@ but this would make me do coding another routine and scheduling for it, instead 
 ### Why request API every 24h?
 Because Flexpool saves your worker's shares for 24h,
 so retrieving this every 24h should give a kinda precise, but not 100% accurate, values.
+
+## Notes
+Hive Type Numbers
+
+| Number | Class              |
+|--------|--------------------|
+| 0      | Worker             |
+| 1      | WalletTimeNickname | 
+
+Hive saves key-value pairs in named boxes
+Let's say to use one box for saving chats and their subscribed addresses  
+**CHATS**:  
+Chat-ID paired with Address, daily report time and an optional nickname for this wallet.
+
+| Chat ID | List of Class WalletTimeNickname                                                             |
+|---------|----------------------------------------------------------------------------------------------|
+| 12345   | [["0x000", "10 00"], ["0x111", "06 30", "Bro"], ["0x222", "12 00", "***REMOVED***"]]          |
+| 98745   | [["0x999", "16 45", "Yours"], ["0x888", "09 00", "RichKid"], ["0x777", "10 15", "LuckyGuy"]] |
+| .....   | ........                                                                                     |
+

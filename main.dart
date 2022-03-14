@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:dart_mining_monitor/dart_mining_monitor.dart'
     as dmm;
 import 'package:dart_mining_monitor/flexpool/api_models/workers_response.dart';
+import 'package:dart_mining_monitor/flexpool/hive_models/wallet_time_nickname.dart';
 import 'package:hive/hive.dart';
 import 'package:dart_mining_monitor/my_teledart_bot.dart';
 import 'package:cron/cron.dart';
+import 'package:dart_mining_monitor/flexpool/api.dart' as api;
 
 void main(List<String> arguments) async {
 /*
@@ -41,16 +43,8 @@ void main(List<String> arguments) async {
   initHive();
   parseAndHandleArgs(arguments);
   var myBot = MyTeleDartBot(teledart: await MyTeleDartBot.getTeleDart(getTelegramApiToken()));
+  myBot.loadCronJobsFromOldSessions();
 
-  //This does not disturb the telegram bot.
-  /*
-  var stream = Stream.periodic(const Duration(seconds: 10), (computationCount) async => {
-    await dmm.startMonitoring(minerAddress)
-  });
-  stream.listen((event) {
-    print("Stream responded");
-  });
-   */
 }
 
 String getTelegramApiToken(){
@@ -60,8 +54,12 @@ String getTelegramApiToken(){
 }
 
 void initHive(){
-  Hive.init("my_hive_dir");
-  Hive.registerAdapter(WorkerAdapter());
+  var path = Directory.current.path;
+  path = path + Platform.pathSeparator + "my_hive_dir";
+  Hive
+    ..init(path)
+    ..registerAdapter(WorkerAdapter())
+    ..registerAdapter(WalletTimeNicknameAdapter());
 }
 
 void parseAndHandleArgs(List<String> arguments){

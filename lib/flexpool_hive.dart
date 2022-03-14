@@ -2,8 +2,10 @@ import 'package:hive/hive.dart';
 
 import 'package:dart_mining_monitor/flexpool/api_models/workers_response.dart';
 
-const workerBoxName = "workerShares";
+import 'flexpool/hive_models/wallet_time_nickname.dart';
 
+const workerBoxName = "workerShares";
+const chatsBox = "chats";
 
 Future<Box<Worker>> _getWorkerBox() async{
   return await Hive.openBox<Worker>(workerBoxName);
@@ -30,4 +32,23 @@ void printBox() async{
   for(var w in box.values){
     print(w);
   }
+}
+
+Future<bool> addWalletToChatBox(String chatId, String wallet, String time) async{
+
+  var wtn = WalletTimeNickname(wallet: wallet, time: time, nickname: null, chatId: chatId);
+  var box = await Hive.openBox<List<WalletTimeNickname>>(chatsBox);
+  List<WalletTimeNickname>? existingList = box.get(chatId)?.cast<WalletTimeNickname>();
+
+  List<WalletTimeNickname> newList = [];
+  if(existingList != null) {
+    for(final i in existingList){
+      if(i.wallet == wallet) return false;
+    }
+    newList = existingList..add(wtn);
+  } else {
+    newList.add(wtn);
+  }
+  box.put(chatId, newList);
+  return true;
 }
