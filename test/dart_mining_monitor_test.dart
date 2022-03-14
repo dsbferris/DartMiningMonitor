@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:dart_mining_monitor/flexpool_api.dart';
-import 'package:dart_mining_monitor/models/workers_response.dart';
+import 'package:dart_mining_monitor/flexpool/api.dart';
+import 'package:dart_mining_monitor/flexpool/api_models/workers_response.dart';
 import 'package:test/test.dart';
 
 void main(){
@@ -189,7 +189,7 @@ void workerPlusOperatorTests(){
 }
 
 void apiTests({required String minerAddress}){
-  var api = FlexpoolApi(minerAddress: minerAddress);
+  var api = Api(minerAddress: minerAddress);
   group("API", () {
     test("getPayments should return valid values", () async {
       var value = await api.getPayments();

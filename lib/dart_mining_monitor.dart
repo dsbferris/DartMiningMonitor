@@ -3,7 +3,7 @@ import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
 
 import 'flexpool_telegram.dart';
-import 'flexpool_api.dart';
+import 'flexpool/api.dart';
 import 'flexpool_hive.dart' as db;
 
 int calculate() {
@@ -12,7 +12,7 @@ int calculate() {
 
 Future<void> startMonitoring(String minerAddress) async {
   print("Starting monitoring...");
-  var api = FlexpoolApi(minerAddress: minerAddress);
+  var api = Api(minerAddress: minerAddress);
   var response = await api.getWorkers();
   if(response.result != null){
     for(var w in response.result!){

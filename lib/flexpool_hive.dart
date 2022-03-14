@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import 'models/workers_response.dart';
+import 'package:dart_mining_monitor/flexpool/api_models/workers_response.dart';
 
 const workerBoxName = "workerShares";
 

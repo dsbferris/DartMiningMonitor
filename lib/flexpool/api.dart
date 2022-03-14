@@ -1,15 +1,15 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'models/balance_response.dart';
-import 'models/miner_details_response.dart';
-import 'models/payments_response.dart';
-import 'models/daily_reward_per_gigahash_sec_response.dart';
-import 'models/miner_stats_response.dart';
-import 'models/workers_response.dart';
+import 'package:dart_mining_monitor/flexpool/api_models/balance_response.dart';
+import 'package:dart_mining_monitor/flexpool/api_models/miner_details_response.dart';
+import 'package:dart_mining_monitor/flexpool/api_models/payments_response.dart';
+import 'package:dart_mining_monitor/flexpool/api_models/daily_reward_per_gigahash_sec_response.dart';
+import 'package:dart_mining_monitor/flexpool/api_models/miner_stats_response.dart';
+import 'package:dart_mining_monitor/flexpool/api_models/workers_response.dart';
 
-class FlexpoolApi {
-  FlexpoolApi({required this.minerAddress});
+class Api {
+  Api({required this.minerAddress});
 
   final String minerAddress;
   static const String _baseUrl = "api.flexpool.io";
