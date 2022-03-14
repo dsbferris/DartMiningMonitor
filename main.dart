@@ -4,11 +4,11 @@ import 'package:dart_mining_monitor/dart_mining_monitor.dart'
     as dmm;
 import 'package:dart_mining_monitor/flexpool/api_models/workers_response.dart';
 import 'package:hive/hive.dart';
-import 'package:dart_mining_monitor/flexpool_telegram.dart';
+import 'package:dart_mining_monitor/my_teledart_bot.dart';
 import 'package:cron/cron.dart';
 
 void main(List<String> arguments) async {
-
+/*
   final cron = Cron();
   print(DateTime.now());
   cron.schedule(Schedule.parse("* * * * *"), () async {
@@ -18,11 +18,13 @@ void main(List<String> arguments) async {
   await Future.delayed(const Duration(minutes: 5, seconds: 10));
   print("Delay finished");
   print(DateTime.now());
-  await cron.close(); //after this all cron-jobs will be stopped
+  await cron.close(); //after this all cron-jobs will be stopped, so don't run it ;)
   print("cron close");
   await Future.delayed(const Duration(minutes: 5, seconds: 10));
   print("Delay finished");
   print(DateTime.now());
+
+ */
 /*
   var stream = Stream<int>.periodic(Duration(seconds: 3), (computationCount) {
     print(computationCount);
@@ -36,9 +38,9 @@ void main(List<String> arguments) async {
   });
  */
 
-  //initHive();
-  //parseAndHandleArgs(arguments);
-  //var myBot = MyTeleDartBot(teledart: await MyTeleDartBot.getTeleDart(getTelegramApiToken()));
+  initHive();
+  parseAndHandleArgs(arguments);
+  var myBot = MyTeleDartBot(teledart: await MyTeleDartBot.getTeleDart(getTelegramApiToken()));
 
   //This does not disturb the telegram bot.
   /*

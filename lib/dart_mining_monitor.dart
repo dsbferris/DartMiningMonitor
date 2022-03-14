@@ -1,8 +1,8 @@
-import 'package:dart_mining_monitor/flexpool_telegram.dart';
+import 'package:dart_mining_monitor/my_teledart_bot.dart';
 import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
 
-import 'flexpool_telegram.dart';
+import 'my_teledart_bot.dart';
 import 'flexpool/api.dart';
 import 'flexpool_hive.dart' as db;
 
