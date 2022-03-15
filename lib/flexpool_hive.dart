@@ -34,9 +34,8 @@ void printBox() async{
   }
 }
 
-Future<bool> addWalletToChatBox(String chatId, String wallet, String time) async{
-
-  var wtn = WalletTimeNickname(wallet: wallet, time: time, nickname: null, chatId: chatId);
+Future<bool> addWalletToChatBox(String chatId, String wallet, DateTime time, String nickname) async{
+  var wtn = WalletTimeNickname(wallet: wallet, time: time, nickname: nickname, chatId: chatId);
   var box = await Hive.openBox<List<WalletTimeNickname>>(chatsBox);
   List<WalletTimeNickname>? existingList = box.get(chatId)?.cast<WalletTimeNickname>();
 

@@ -1,5 +1,6 @@
 import 'package:dart_mining_monitor/flexpool/api.dart';
 import 'package:dart_mining_monitor/flexpool/hive_models/wallet_time_nickname.dart';
+import 'package:dart_mining_monitor/flexpool/random_names.dart';
 import 'package:dart_mining_monitor/flexpool_hive.dart';
 import 'package:hive/hive.dart';
 import 'package:teledart/model.dart';
@@ -104,7 +105,10 @@ class MyTeleDartBot{
     var wallet = extractWalletFromString(text);
     if(wallet == null) {
       message.reply("Use the following format:\n"
-          "/wallet 0xYOURWALLET123");
+          "/wallet address (time nickname)\n"
+          "Arguments in curly braces are optional.\n"
+          "Examples:\n"
+          "/wallet 0x1234 ");
     }
     else{
       var locateWallet = await Api(minerAddress: wallet).getLocateWallet();
@@ -115,21 +119,27 @@ class MyTeleDartBot{
         );
       }
       else{
-        var datetime = DateTime.now();
-        //delay daily report time by three minutes, so that the api calls have one minute to finish
-        var time = "${datetime.hour} ${datetime.minute + 3}";
-
-        var success = await addWalletToChatBox(message.chat.id.toString(), wallet, time);
+        final time = DateTime.now();
+        // delay daily report time by three minutes,
+        // so that the api calls have at least one minute to finish
+        // added one minute on top, not to have problem at XX:XX:59
+        final requestTime = time.add(const Duration(minutes: 2));
+        final notifyTime = time.add(const Duration(minutes: 3));
+        final nickname = getRandomName();
+        //TODO Setup cron job!
+        var success = await addWalletToChatBox(message.chat.id.toString(), wallet, time, nickname);
         if(success){
-          message.reply("Successfully added your wallet $wallet.\n"
-              "You will be notified every day at ${datetime.hour}:${datetime.minute + 3}.\n"
-              "To change the time use the command\n"
-              "/changeTime 0x... 16:45");
+          message.reply("Successfully added your wallet:\n"
+              "$wallet\n"
+              "Let's name it:\n"
+              "$nickname\n"
+              "You will be notified every day at:\n"
+              "${notifyTime.hour}:${notifyTime.minute}\n"
+              );
+          helpCommand(message);
         }
         else{
-          message.reply("Your wallet is already registered!\n"
-              "If you wan't to delete it use:\n"
-              "/delete 0x...");
+          message.reply("Your wallet is already registered!");
         }
       }
     }
@@ -137,17 +147,31 @@ class MyTeleDartBot{
 
   void changeTimeCommand(TeleDartMessage message){
     //TODO Implement change time command
+    // /changeTime 16:45
     print("TODO IMPLEMENT");
   }
 
   void changeNicknameCommand(TeleDartMessage message){
     //TODO Implement change nickname command
+    // /changeNickname NICKNAME
     print("TODO IMPLEMENT");
   }
 
   void deleteCommand(TeleDartMessage message){
     //TODO Implement delete command
+    // /delete
     print("TODO IMPLEMENT");
+  }
+
+  void helpCommand(TeleDartMessage message){
+    message.reply(
+        "To change that name use the command\n"
+        "/changeNickname NICKNAME\n"
+        "To change the time use the command\n"
+        "/changeTime 16:45\n"
+        "Note! Changing the notify time does not change the time flexpool api gets requested.\n"
+        "If you wan't me to delete all your data, use:\n"
+        "/delete I REALLY WANT THIS");
   }
 
 

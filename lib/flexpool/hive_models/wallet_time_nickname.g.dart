@@ -19,7 +19,7 @@ class WalletTimeNicknameAdapter extends TypeAdapter<WalletTimeNickname> {
     return WalletTimeNickname(
       chatId: fields[0] as String,
       wallet: fields[1] as String,
-      time: fields[2] as String,
+      time: fields[2] as DateTime,
       nickname: fields[3] as String?,
     );
   }

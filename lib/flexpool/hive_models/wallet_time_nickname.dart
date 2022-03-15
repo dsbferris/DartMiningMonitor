@@ -13,7 +13,7 @@ class WalletTimeNickname extends HiveObject{
   String wallet;
 
   @HiveField(2)
-  String time;
+  DateTime time;
 
   @HiveField(3)
   String? nickname;
