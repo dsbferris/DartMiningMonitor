@@ -42,17 +42,11 @@ class Worker extends HiveObject{
   num? staleShares;
   @HiveField(3)
   num? invalidShares;
-  @HiveField(4)
   bool? isOnline;
-  @HiveField(5)
   num? count;
-  @HiveField(6)
   num? reportedHashrate;
-  @HiveField(7)
   num? currentEffectiveHashrate;
-  @HiveField(8)
   num? averageEffectiveHashrate;
-  @HiveField(9)
   num? lastSeen;
 
   Worker(

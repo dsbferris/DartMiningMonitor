@@ -1,41 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'workers_response.dart';
+part of 'wallet_entry.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class WorkerAdapter extends TypeAdapter<Worker> {
+class WalletEntryAdapter extends TypeAdapter<WalletEntry> {
   @override
-  final int typeId = 0;
+  final int typeId = 2;
 
   @override
-  Worker read(BinaryReader reader) {
+  WalletEntry read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Worker(
-      name: fields[0] as String?,
-      validShares: fields[1] as num?,
-      staleShares: fields[2] as num?,
-      invalidShares: fields[3] as num?,
+    return WalletEntry(
+      wallet: fields[0] as String,
+      workers: (fields[1] as List).cast<WorkersResponse>(),
     );
   }
 
   @override
-  void write(BinaryWriter writer, Worker obj) {
+  void write(BinaryWriter writer, WalletEntry obj) {
     writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.name)
-      ..writeByte(1)
-      ..write(obj.validShares)
       ..writeByte(2)
-      ..write(obj.staleShares)
-      ..writeByte(3)
-      ..write(obj.invalidShares);
+      ..writeByte(0)
+      ..write(obj.wallet)
+      ..writeByte(1)
+      ..write(obj.workers);
   }
 
   @override
@@ -44,7 +38,7 @@ class WorkerAdapter extends TypeAdapter<Worker> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is WorkerAdapter &&
+      other is WalletEntryAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

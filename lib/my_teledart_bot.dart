@@ -8,6 +8,8 @@ import 'package:dart_mining_monitor/my_hive.dart';
 import 'package:teledart/model.dart';
 import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
+import 'package:dart_mining_monitor/flexpool/my_cron.dart';
+
 class MyTeleDartBot{
   /// Return teledart instance with given [token]
   ///
@@ -28,7 +30,7 @@ class MyTeleDartBot{
     teledart.start();
 
     registerAllCommands();
-    registerInlineQueries();
+    //registerInlineQueries();
 
 
     print("Initialized teledart");
@@ -102,6 +104,16 @@ class MyTeleDartBot{
     }
 
   }
+  void helpCommand(TeleDartMessage message){
+    message.reply(
+        "To change that name use the command\n"
+            "/changeNickname NICKNAME\n"
+            "To change the time use the command\n"
+            "/changeTime 16:45\n"
+            "Note! Changing the notify time does not change the time flexpool api gets requested.\n"
+            "If you wan't me to delete all your data, use:\n"
+            "/delete I REALLY WANT THIS");
+  }
 
   Future<void> walletCommand(TeleDartMessage message) async {
     var text = message.text ?? "";
@@ -111,14 +123,14 @@ class MyTeleDartBot{
           "/wallet address (time nickname)\n"
           "Arguments in curly braces are optional.\n"
           "Examples:\n"
-          "/wallet 0x1234 ");
+          "/wallet 0x1234");
     }
     else{
       var locateWallet = await Api(minerAddress: wallet).getLocateWallet();
       if(locateWallet == null || locateWallet != "eth"){
-        message.reply('The given wallet $wallet is not known at flexpool.\n'
-            'Sure you entered the right one?\n'
-            'Please retry using /wallet 0xYOURWALLET123'
+        message.reply("The given wallet $wallet is not known at flexpool.\n"
+            "Sure you entered the right one?\n"
+            "Please retry using /wallet 0xYOURWALLET123"
         );
       }
       else{
@@ -129,12 +141,17 @@ class MyTeleDartBot{
         final requestTime = time.add(const Duration(minutes: 2));
         final notifyTime = time.add(const Duration(minutes: 3));
         final nickname = getRandomName();
-        //TODO Setup cron job!
         final c = ChatEntry(chatId: message.chat.id.toString(), nickname: nickname, wallet: wallet, notifyTime: notifyTime, requestTime: requestTime);
-        var success = await addWalletToChatBox(c);
-        if(success){
-          cron.schedule(Schedule.parse(getCronStringForTime(requestTime)), requestFunctionForCron);
-          cron.schedule(Schedule.parse(getCronStringForTime(notifyTime)), notifyFunctionForCron);
+        var added = await addChat(c);
+        if(added){
+          cron.schedule(Schedule.parse(getCronStringForTime(requestTime)), () async {
+
+          });
+          cron.schedule(Schedule.parse(getCronStringForTime(notifyTime)), () async {
+            await Future.delayed(const Duration(seconds: 30));
+            var dailyMessage = await notifyJob(c);
+            teledart.sendMessage(c.chatId, dailyMessage);
+          });
           message.reply("Successfully added your wallet:\n"
               "$wallet\n"
               "Let's name it:\n"
@@ -151,16 +168,6 @@ class MyTeleDartBot{
     }
   }
 
-  //HANDLE THE REQUEST HERE! USE DMM!
-  FutureOr<dynamic> requestFunctionForCron(){
-    print("request");
-    return 0;
-  }
-
-  FutureOr<dynamic> notifyFunctionForCron(){
-    print("notify");
-    return 0;
-  }
 
   void changeTimeCommand(TeleDartMessage message){
     //TODO Implement change time command
@@ -180,16 +187,6 @@ class MyTeleDartBot{
     print("TODO IMPLEMENT");
   }
 
-  void helpCommand(TeleDartMessage message){
-    message.reply(
-        "To change that name use the command\n"
-        "/changeNickname NICKNAME\n"
-        "To change the time use the command\n"
-        "/changeTime 16:45\n"
-        "Note! Changing the notify time does not change the time flexpool api gets requested.\n"
-        "If you wan't me to delete all your data, use:\n"
-        "/delete I REALLY WANT THIS");
-  }
 
 
 
@@ -198,7 +195,7 @@ class MyTeleDartBot{
     print("Implement that shit bro...");
   }
 
-  String? extractWalletFromString(String text){
+  static String? extractWalletFromString(String text){
     for(final t in text.split(" ")){
       if(t.toLowerCase().contains("0x".toLowerCase())){
         if(t.length != 42) {
@@ -211,9 +208,12 @@ class MyTeleDartBot{
     return null;
   }
 
-  String getCronStringForTime(DateTime time){
+  static String getCronStringForTime(DateTime time){
     //Minute X, Hour X, every day in month, every month in year, every weekday
-    return "${time.minute} ${time.hour} * * *";
+    //return "${time.minute} ${time.hour} * * *";
+
+    //FOR TESTING EVERY MINUTE!
+    return "* * * * *";
   }
 
 

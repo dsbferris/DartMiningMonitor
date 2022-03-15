@@ -1,13 +1,10 @@
 import 'dart:io';
+import 'package:cron/cron.dart';
+import 'package:hive/hive.dart';
 
-import 'package:dart_mining_monitor/dart_mining_monitor.dart'
-    as dmm;
 import 'package:dart_mining_monitor/flexpool/api_models/workers_response.dart';
 import 'package:dart_mining_monitor/flexpool/hive_models/chat_entry.dart';
-import 'package:hive/hive.dart';
 import 'package:dart_mining_monitor/my_teledart_bot.dart';
-import 'package:cron/cron.dart';
-import 'package:dart_mining_monitor/flexpool/api.dart' as api;
 
 void main(List<String> arguments) async {
 /*
@@ -49,7 +46,7 @@ void main(List<String> arguments) async {
 
 String getTelegramApiToken(){
   var token = Platform.environment["BOT_TOKEN"];
-  if(token == null) throw Exception("No token given");
+  if(token == null) throw ArgumentError("No BOT_TOKEN given in environment variables!");
   return token;
 }
 
@@ -59,7 +56,7 @@ void initHive(){
   Hive
     ..init(path)
     ..registerAdapter(WorkerAdapter())
-    ..registerAdapter(ChatAdapter());
+    ..registerAdapter(ChatEntryAdapter());
 }
 
 void parseAndHandleArgs(List<String> arguments){

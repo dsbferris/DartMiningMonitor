@@ -26,10 +26,11 @@ void storeWorker(Worker w) async{
   }
 }
 
-Future<bool> addWalletToChatBox(ChatEntry c) async{
-  //var wtn = Chat(wallet: wallet, time: time, nickname: nickname, chatId: chatId);
+Future<bool> addChat(ChatEntry c) async{
   var box = await _getChatBox();
-  if(box.containsKey(c.chatId)) return false;
-  box.put(c.chatId, c);
-  return true;
+  bool exists = box.containsKey(c.chatId);
+  if(!exists) await box.put(c.chatId, c);
+  await box.close();
+  //true if added, false if existing
+  return !exists;
 }

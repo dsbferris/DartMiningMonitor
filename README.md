@@ -60,7 +60,7 @@ Hive Type Numbers
 
 | Number | Class       |
 |--------|-------------|
-| 0      | Worker      |
+| ~~0~~      | ~~Worker~~      |
 | 1      | ChatEntry   |
 | 2      | WalletEntry |
 
