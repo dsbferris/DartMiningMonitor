@@ -58,10 +58,11 @@ so retrieving this every 24h should give a kinda precise, but not 100% accurate,
 ## Notes
 Hive Type Numbers
 
-| Number | Class              |
-|--------|--------------------|
-| 0      | Worker             |
-| 1      | WalletTimeNickname | 
+| Number | Class       |
+|--------|-------------|
+| 0      | Worker      |
+| 1      | ChatEntry   |
+| 2      | WalletEntry |
 
 Hive saves key-value pairs in named boxes
 Let's say to use one box for saving chats and their subscribed addresses  

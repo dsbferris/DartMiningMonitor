@@ -1,12 +1,13 @@
+import 'dart:async';
+
+import 'package:cron/cron.dart';
 import 'package:dart_mining_monitor/flexpool/api.dart';
-import 'package:dart_mining_monitor/flexpool/hive_models/wallet_time_nickname.dart';
+import 'package:dart_mining_monitor/flexpool/hive_models/chat_entry.dart';
 import 'package:dart_mining_monitor/flexpool/random_names.dart';
-import 'package:dart_mining_monitor/flexpool_hive.dart';
-import 'package:hive/hive.dart';
+import 'package:dart_mining_monitor/my_hive.dart';
 import 'package:teledart/model.dart';
 import 'package:teledart/teledart.dart';
 import 'package:teledart/telegram.dart';
-import 'package:teledart/model.dart' as tm;
 class MyTeleDartBot{
   /// Return teledart instance with given [token]
   ///
@@ -20,8 +21,10 @@ class MyTeleDartBot{
     return TeleDart(token, Event(username!));
   }
 
+  late final Cron cron;
   final TeleDart teledart;
   MyTeleDartBot({required this.teledart}){
+    cron = Cron();
     teledart.start();
 
     registerAllCommands();
@@ -127,8 +130,11 @@ class MyTeleDartBot{
         final notifyTime = time.add(const Duration(minutes: 3));
         final nickname = getRandomName();
         //TODO Setup cron job!
-        var success = await addWalletToChatBox(message.chat.id.toString(), wallet, time, nickname);
+        final c = ChatEntry(chatId: message.chat.id.toString(), nickname: nickname, wallet: wallet, notifyTime: notifyTime, requestTime: requestTime);
+        var success = await addWalletToChatBox(c);
         if(success){
+          cron.schedule(Schedule.parse(getCronStringForTime(requestTime)), requestFunctionForCron);
+          cron.schedule(Schedule.parse(getCronStringForTime(notifyTime)), notifyFunctionForCron);
           message.reply("Successfully added your wallet:\n"
               "$wallet\n"
               "Let's name it:\n"
@@ -143,6 +149,17 @@ class MyTeleDartBot{
         }
       }
     }
+  }
+
+  //HANDLE THE REQUEST HERE! USE DMM!
+  FutureOr<dynamic> requestFunctionForCron(){
+    print("request");
+    return 0;
+  }
+
+  FutureOr<dynamic> notifyFunctionForCron(){
+    print("notify");
+    return 0;
   }
 
   void changeTimeCommand(TeleDartMessage message){
@@ -192,6 +209,11 @@ class MyTeleDartBot{
       }
     }
     return null;
+  }
+
+  String getCronStringForTime(DateTime time){
+    //Minute X, Hour X, every day in month, every month in year, every weekday
+    return "${time.minute} ${time.hour} * * *";
   }
 
 

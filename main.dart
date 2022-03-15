@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:dart_mining_monitor/dart_mining_monitor.dart'
     as dmm;
 import 'package:dart_mining_monitor/flexpool/api_models/workers_response.dart';
-import 'package:dart_mining_monitor/flexpool/hive_models/wallet_time_nickname.dart';
+import 'package:dart_mining_monitor/flexpool/hive_models/chat_entry.dart';
 import 'package:hive/hive.dart';
 import 'package:dart_mining_monitor/my_teledart_bot.dart';
 import 'package:cron/cron.dart';
@@ -59,7 +59,7 @@ void initHive(){
   Hive
     ..init(path)
     ..registerAdapter(WorkerAdapter())
-    ..registerAdapter(WalletTimeNicknameAdapter());
+    ..registerAdapter(ChatAdapter());
 }
 
 void parseAndHandleArgs(List<String> arguments){

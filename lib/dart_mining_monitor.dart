@@ -4,12 +4,13 @@ import 'package:teledart/telegram.dart';
 
 import 'my_teledart_bot.dart';
 import 'flexpool/api.dart';
-import 'flexpool_hive.dart' as db;
+import 'my_hive.dart' as db;
 
 int calculate() {
   return 6 * 7;
 }
 
+/*
 Future<void> startMonitoring(String minerAddress) async {
   print("Starting monitoring...");
   var api = Api(minerAddress: minerAddress);
@@ -27,6 +28,8 @@ Future<void> startMonitoring(String minerAddress) async {
     db.printBox();
   }
 }
+
+ */
 
 
 void testTelegram({required String token}) async {
