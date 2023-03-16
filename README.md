@@ -1,7 +1,7 @@
-# Flexpool Mining Monitor Telegram Bot in Dart [FlexMiMonBotDart or just ***REMOVED***Bot]
+# Flexpool Mining Monitor Telegram Bot in Dart [FlexMiMonBotDart or just ]
 
 ## First things first!
-Check `@MYBOTNAME` on telegram. I only recommend using my bot for testing.
+Check `@` on telegram. I only recommend using my bot for testing.
 Better create your own bot using `@BotFather`. Also keep in mind if you use my bot,
 I got your wallet and Telegram profile. Not that I'm not trustworthy, but better you know.
 Also please note that I'm not encrypting any of the saved data.
@@ -23,7 +23,7 @@ Additional commands:
 - <code>/help</code> displays help and links to here, who could have expected this
 - <code>/daily on/off</code> to switch daily notification on or off.
 - <code>/silent on/off</code> to switch whether all bot notification will cause a sound (default: off)
-- <code>@MYBOTNAME eth-eur</code> to send current counter-value into ANY chat. (If eth-usd is needed, create an Issue here[INSERT LINK])
+- <code>@ eth-eur</code> to send current counter-value into ANY chat. (If eth-usd is needed, create an Issue here[INSERT LINK])
 - <code>/stop</code> will stop this bot. It will one last time print out current shares per worker for the ongoing Payout.
 Then all data is about your Telegram profile and your workers and payouts is getting deleting from database, except for last two when someone else subscribed to that address as well.
 
@@ -71,7 +71,7 @@ Chat-ID paired with Address, daily report time and an optional nickname for this
 
 | Chat ID | List of Class WalletTimeNickname                                                             |
 |---------|----------------------------------------------------------------------------------------------|
-| 12345   | [["0x000", "10 00"], ["0x111", "06 30", "Bro"], ["0x222", "12 00", "***REMOVED***"]]          |
+| 12345   | [["0x000", "10 00"], ["0x111", "06 30", "Bro"], ["0x222", "12 00", ""]]          |
 | 98745   | [["0x999", "16 45", "Yours"], ["0x888", "09 00", "RichKid"], ["0x777", "10 15", "LuckyGuy"]] |
 | .....   | ........                                                                                     |
 
